@@ -1,0 +1,1 @@
+docker build -t pd4castr/python-demo:$(date +%s) .

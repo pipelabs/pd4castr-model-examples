@@ -4,8 +4,11 @@
 
 At a high level, a model in **pd4castr** can be any code executing inside a docker container that can read input data, and uploads output data. **pd4castr** provides a straight forward way of exposing input data and facilitating uploading output via [AWS S3 signed URLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html). What this looks like in practice:
 
-- Input source data URLs are exposed to the Docker container via environment variables, in the format of `INPUT_<VARIABLE_NAME>_URL` ex. `INPUT_PREDISPATCH_PRICE_URL`. These URLs can be fetched via standard HTTP GET requests (TODO: need to review - signed URL usage?).
-- An output upload URL is exposed to the docker container via the `OUTPUT_URL` environment variable. This can be uploaded to via a standard HTTP POST request, but \_\_ (TODO: need to review signed URL usage)
+- Input source data URLs are exposed to the Docker container via environment variables, in the format of `INPUT_<VARIABLE_NAME>_URL` ex. `INPUT_PREDISPATCH_PRICE_URL`
+  - These URLs can be fetched via standard HTTP GET requests
+- An output upload URL is exposed to the docker container via the `OUTPUT_URL` environment variable
+  - This can be uploaded to via a standard HTTP PUT request
+  - The expected output format is ... (TODO: JSON? structure? required columns? is this where the docs should live?)
 
 ## Scaffolding Your Project
 
