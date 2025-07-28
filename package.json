@@ -1,0 +1,12 @@
+{
+  "name": "pd4castr-model-examples",
+  "version": "1.0.0",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write --ignore-unknown ."
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}
