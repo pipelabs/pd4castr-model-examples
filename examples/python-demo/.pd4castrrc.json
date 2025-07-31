@@ -1,0 +1,51 @@
+{
+  "dataFetchers": [
+    {
+      "key": "dispatch_price_fetcher",
+      "type": "AEMO_MMS",
+      "checkInterval": 300,
+      "config": {
+        "checkQuery": "queries/dispatch_price_check.sql",
+        "fetchQuery": "queries/dispatch_price_fetch.sql"
+      }
+    },
+    {
+      "key": "predispatch_price_fetcher",
+      "type": "AEMO_MMS",
+      "checkInterval": 300,
+      "config": {
+        "checkQuery": "queries/predispatch_price_check.sql",
+        "fetchQuery": "queries/predispatch_price_fetch.sql"
+      }
+    },
+    {
+      "key": "predispatch_region_sum_fetcher",
+      "type": "AEMO_MMS",
+      "checkInterval": 300,
+      "config": {
+        "checkQuery": "queries/predispatch_region_sum_check.sql",
+        "fetchQuery": "queries/predispatch_region_sum_fetch.sql"
+      }
+    }
+  ],
+  "modelInputs": [
+    {
+      "key": "dispatch_price",
+      "inputSource": "AEMO_MMS",
+      "dataFetcher": "dispatch_price_fetcher",
+      "trigger": "WAIT_FOR_LATEST_FILE"
+    },
+    {
+      "key": "predispatch_price",
+      "inputSource": "AEMO_MMS",
+      "dataFetcher": "predispatch_price_fetcher",
+      "trigger": "WAIT_FOR_LATEST_FILE"
+    },
+    {
+      "key": "predispatch_region_sum",
+      "inputSource": "AEMO_MMS",
+      "dataFetcher": "predispatch_region_sum_fetcher",
+      "trigger": "WAIT_FOR_LATEST_FILE"
+    }
+  ]
+}
