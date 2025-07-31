@@ -1,12 +1,14 @@
 {
   "name": "pd4castr-model-examples",
   "version": "1.0.0",
+  "license": "UNLICENSED",
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write --ignore-unknown ."
   },
   "devDependencies": {
+    "pd4castr-cli": "file:../pd4castr-cli",
     "prettier": "3.6.2"
   }
 }
