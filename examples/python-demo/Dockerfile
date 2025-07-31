@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "-m", "python_demo/main" ]
+CMD [ "python", "python_demo/main.py" ]

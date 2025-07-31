@@ -1,0 +1,8 @@
+{
+  "name": "python-demo",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "pd4castr-cli": "file:../../../pd4castr-cli"
+  }
+}
