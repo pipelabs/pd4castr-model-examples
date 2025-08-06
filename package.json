@@ -8,7 +8,6 @@
     "format:fix": "prettier --write --ignore-unknown ."
   },
   "devDependencies": {
-    "pd4castr-cli": "file:../pd4castr-cli",
     "prettier": "3.6.2"
   }
 }
