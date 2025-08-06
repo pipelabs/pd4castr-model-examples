@@ -1,10 +1,17 @@
 {
-  "modelInputs": [
+  "name": "Python Demo",
+  "forecastVariable": "PRICE",
+  "timeHorizon": "DAY_AHEAD",
+  "metadata": {
+    "author": "Your Company Name",
+    "version": "1.0.0"
+  },
+  "inputs": [
     {
       "key": "dispatch_price",
       "inputSource": "dev-test",
       "trigger": "WAIT_FOR_LATEST_FILE",
-      "dataFetcher": {
+      "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
         "config": {
@@ -17,7 +24,7 @@
       "key": "predispatch_price",
       "inputSource": "dev-test",
       "trigger": "WAIT_FOR_LATEST_FILE",
-      "dataFetcher": {
+      "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
         "config": {
@@ -30,7 +37,7 @@
       "key": "predispatch_region_sum",
       "inputSource": "dev-test",
       "trigger": "WAIT_FOR_LATEST_FILE",
-      "dataFetcher": {
+      "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
         "config": {
@@ -39,5 +46,39 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": [
+    {
+      "name": "NSW1",
+      "seriesKey": true,
+      "colour": "#84EDDC"
+    },
+    {
+      "name": "QLD1",
+      "seriesKey": true,
+      "colour": "#FD4E4E"
+    },
+    {
+      "name": "SA1",
+      "seriesKey": true,
+      "colour": "#FED600"
+    },
+    {
+      "name": "TAS1",
+      "seriesKey": true,
+      "colour": "#40A967"
+    },
+    {
+      "name": "VIC1",
+      "seriesKey": true,
+      "colour": "#1965C6"
+    }
+  ],
+
+  "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
+  "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json",
+  "$$id": null,
+  "$$modelGroupID": null,
+  "$$revision": 0,
+  "$$dockerImage": null
 }

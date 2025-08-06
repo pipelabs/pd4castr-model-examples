@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "pd4castr model configuration schema",
+  "description": "Schema for .pd4castrrc.json configuration files",
+  "type": "object",
+  "required": ["name", "forecastVariable", "timeHorizon", "inputs", "outputs"],
+  "additionalProperties": true,
+  "properties": {
+    "$$id": {
+      "type": ["null", "string"],
+      "description": "DO NOT EDIT: Unique ID for the model."
+    },
+    "$$modelGroupID": {
+      "type": ["null", "string"],
+      "description": "DO NOT EDIT: Unique ID of the group the model belongs to."
+    },
+    "$$revision": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "DO NOT EDIT: Revision of the model"
+    },
+    "$$dockerImage": {
+      "type": ["null", "string"],
+      "description": "DO NOT EDIT: Docker image name. Initially null until published, then populated with the image name."
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the model."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Flexible object for storing model metadata. Can contain any properties.",
+      "additionalProperties": true,
+      "examples": [
+        {
+          "author": "Your Company Name",
+          "version": "1.0.0",
+          "trainedOn": "2025-07-10"
+        }
+      ]
+    },
+    "forecastVariable": {
+      "type": "string",
+      "enum": ["PRICE"],
+      "description": "The type of forecast variable in the model output."
+    },
+    "timeHorizon": {
+      "type": "string",
+      "enum": ["ACTUAL", "DAY_AHEAD", "WEEK_AHEAD"],
+      "description": "The time horizon of the forecast."
+    },
+    "inputs": {
+      "type": "array",
+      "description": "Array of model inputs with optional data fetchers",
+      "items": {
+        "type": "object",
+        "required": ["key", "inputSource", "trigger"],
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique key for referencing this input."
+          },
+          "inputSource": {
+            "type": "string",
+            "description": "Source identifier for the input data"
+          },
+          "trigger": {
+            "type": "string",
+            "enum": ["WAIT_FOR_LATEST_FILE", "USE_MOST_RECENT_FILE"],
+            "description": "Condition that determines when this input is ready to be used to trigger a model run."
+          },
+          "fetcher": {
+            "type": "object",
+            "required": ["type", "checkInterval", "config"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["AEMO_MMS"],
+                "description": "Type of data fetcher."
+              },
+              "checkInterval": {
+                "type": "integer",
+                "minimum": 60,
+                "description": "Interval in seconds to check for new data."
+              },
+              "config": {
+                "type": "object",
+                "required": ["checkQuery", "fetchQuery"],
+                "additionalProperties": false,
+                "properties": {
+                  "checkQuery": {
+                    "type": "string",
+                    "description": "Path to SQL query for checking if we need to fetch new data."
+                  },
+                  "fetchQuery": {
+                    "type": "string",
+                    "description": "Path to SQL query for fetching data."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "description": "Array of model outputs variables.",
+      "items": {
+        "type": "object",
+        "required": ["name", "seriesKey"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the output variable."
+          },
+          "seriesKey": {
+            "type": "boolean",
+            "description": "Whether this output is a series key."
+          },
+          "colour": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "description": "Hex color code that will be used to display this output."
+          }
+        }
+      }
+    }
+  }
+}
