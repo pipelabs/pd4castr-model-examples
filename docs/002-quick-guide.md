@@ -2,56 +2,103 @@
 
 > **NOTE!** The quick guide expects you have all the [prequisites](./001-prerequisites.md) installed in your environment.
 
-## Environment
+## Log in to pd4castr
 
-You can verify the status of all the expected dependencies in your environment by running:
+To create a model you need to be logged in to the pd4castr CLI. You can login by simply running:
 
-```sh
-$ pd4castr check
+```bash
+pd4castr login
 ```
 
 ## Project Setup
 
 To get up and running with your own **pd4castr** model, begin by running the `init` command and following the prompts. To follow the quick guide, select the `python-demo` template.
 
-```sh
-$ pd4castr init
+```bash
+pd4castr init
 ```
 
 ## Verify the Model Runs
 
-This Python demo model is configured by default to load from 3 input sources, as seen in the [test_data/](../examples/python-demo/test_data/) directory and the [`load_input_data`](../examples/python-demo/python_demo/load_input_data.py) function:
+The Python demo model is configured to load from 3 input sources:
 
 1. `predispatch_price`
 2. `predispatch_region_sum`
 3. `dispatch_price`
 
-We can test those inputs by pointing the CLI at the test data directory like:
+These inputs are defined and handled in 3 key places:
 
-```sh
-$ pd4castr test --input-data=./test_data
+- inputs are defined in the [model configuration file](../examples/python-demo/.pd4castrrc.json)
+- inputs with (optional) data fetchers include their SQL queries in the [/queries folder](../examples/python-demo/queries/)
+- each input is loaded in the model runner script in the the [`load_input_data`](../examples/python-demo/python_demo/load_input_data.py) function
+
+We can test these inputs using the pd4castr CLI.
+
+Start by runnning `fetch` to run our data fetcher queries. This will generate a set of test data, output to the `test_data/` directory.
+
+```bash
+pd4castr fetch
+```
+
+Then run the `test` command which will build your model image and run it, verifying each input is accessed and output is successfully handled
+
+```bash
+pd4castr test
 ```
 
 ## Adjusting the Input Sources
 
-If you are using your own input sources for your model, you'll need to adjust them in the [`load_input_data`](../examples/python-demo/python_demo/load_input_data.py) function like so:
+If you are using your own input sources for your model, you'll need to adjust them in the 3 key places outlined above.
+
+To start, let's define a new input in our `.pd4castrrc.json` file:
+
+```jsonc
+{
+  // ... the rest of the configuration
+  "inputs": [
+    {
+      "key": "test_input",
+      "inputSource": "dev-test",
+      "trigger": "WAIT_FOR_LATEST_FILE",
+      "dataFetcher": {
+        "type": "AEMO_MMS",
+        "checkInterval": 300,
+        "config": {
+          "checkQuery": "queries/test_input_check.sql",
+          "fetchQuery": "queries/test_input_fetch.sql",
+        },
+      },
+    },
+    // ... other inputs here
+  ],
+}
+```
+
+Then create some dummy SQL queries for our data fetcher:
+
+```sql
+-- /queries/test_input_check.sql
+SELECT CURRENT_TIMESTAMP;
+
+-- /queries/test_input_fetch.sql
+SELECT *
+FROM (VALUES (1), (2), (3))
+AS A (TEST_VALUE)
+```
+
+Then update our model runner `load_input_data` function:
 
 ```py
-# before
-pd_price_url = os.getenv('INPUT_PREDISPATCH_PRICE_URL')
-pd_regionsum_url = os.getenv('INPUT_PREDISPATCH_REGION_SUM_URL')
-dp_url = os.getenv('INPUT_DISPATCH_PRICE_URL')
+test_input_url = os.getenv('INPUT_TEST_INPUT_URL')
 
-pd_price_json = requests.get(pd_price_url).json()
-pd_regionsum_json = requests.get(pd_regionsum_url).json()
-dp_json = requests.get(dp_url).json()
+test_input = requests.get(test_input_url).json()
+```
 
-# after - your input source data
-first_input_url = os.getenv('INPUT_FIRST_INPUT_URL')
-second_input_url = os.getenv('INPUT_SECOND_INPUT_URL')
+Then fetch your new input's test data and verify it works:
 
-first_input = requests.get(first_input_url).json()
-second_input = requests.get(second_input_url).json()
+```bash
+pd4castr fetch
+pd4castr test
 ```
 
 ## Using your own Model
@@ -73,10 +120,10 @@ model_results = model.predict(features)
 results = process_model_results(model_results)
 ```
 
-## Verifying the Output
+To verify that your model is integrated correctly and output is being generated as expected, you can against run the `test` command to build and run your model image:
 
-As above, we can use the CLI to run the model and verify everything works. Once all tests have passed, the CLI will provide you a path to the output data for you to inspect.
-
-```sh
-$ pd4castr test --input-data=./test_data
+```bash
+pd4castr test
 ```
+
+Output data will be saved to `test_output/` directory so you can inspect it.
