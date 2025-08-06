@@ -9,7 +9,6 @@
   "inputs": [
     {
       "key": "dispatch_price",
-      "inputSource": "dev-test",
       "trigger": "WAIT_FOR_LATEST_FILE",
       "fetcher": {
         "type": "AEMO_MMS",
@@ -22,7 +21,6 @@
     },
     {
       "key": "predispatch_price",
-      "inputSource": "dev-test",
       "trigger": "WAIT_FOR_LATEST_FILE",
       "fetcher": {
         "type": "AEMO_MMS",
@@ -35,7 +33,6 @@
     },
     {
       "key": "predispatch_region_sum",
-      "inputSource": "dev-test",
       "trigger": "WAIT_FOR_LATEST_FILE",
       "fetcher": {
         "type": "AEMO_MMS",

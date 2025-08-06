@@ -55,7 +55,7 @@
       "description": "Array of model inputs with optional data fetchers",
       "items": {
         "type": "object",
-        "required": ["key", "inputSource", "trigger"],
+        "required": ["key", "trigger"],
         "additionalProperties": false,
         "properties": {
           "key": {
@@ -64,7 +64,7 @@
           },
           "inputSource": {
             "type": "string",
-            "description": "Source identifier for the input data"
+            "description": "Identifier for the input data source."
           },
           "trigger": {
             "type": "string",

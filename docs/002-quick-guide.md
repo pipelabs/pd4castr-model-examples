@@ -58,7 +58,6 @@ To start, let's define a new input in our `.pd4castrrc.json` file:
   "inputs": [
     {
       "key": "test_input",
-      "inputSource": "dev-test",
       "trigger": "WAIT_FOR_LATEST_FILE",
       "dataFetcher": {
         "type": "AEMO_MMS",
