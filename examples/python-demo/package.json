@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "devDependencies": {
-    "pd4castr-cli": "file:../../../pd4castr-cli"
+    "@pd4castr/cli": "^0.0.1"
   }
 }
