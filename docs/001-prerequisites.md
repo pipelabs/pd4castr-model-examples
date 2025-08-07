@@ -14,11 +14,12 @@ Start by downloading [Docker Desktop](https://docs.docker.com/desktop/setup/inst
 
 Once installed, download the latest [NVM installer (`nvm-setup.exe`)](https://github.com/coreybutler/nvm-windows/releases) from Github and install it.
 
-Once complete, open your terminal and run:
+Once complete, run **Windows Powershell** as an administrator and run the following commands:
 
 ```bash
 # 1. Install Node 20.x
 nvm install 20
+nvm use 20
 
 # 2. Install the pdr4casstr CLI
 npm install -g @pd4castr/cli

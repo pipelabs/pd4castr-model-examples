@@ -1,6 +1,6 @@
 # Quick Guide
 
-> **NOTE!** The quick guide expects you have all the [prequisites](./001-prerequisites.md) installed in your environment.
+> **NOTE!** The quick guide expects you have all the [prerequisites](./001-prerequisites.md) installed in your environment.
 
 ## Log in to pd4castr
 
