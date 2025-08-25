@@ -42,12 +42,12 @@
     },
     "forecastVariable": {
       "type": "string",
-      "enum": ["PRICE"],
+      "enum": ["price"],
       "description": "The type of forecast variable in the model output."
     },
     "timeHorizon": {
       "type": "string",
-      "enum": ["ACTUAL", "DAY_AHEAD", "WEEK_AHEAD"],
+      "enum": ["actual", "day_ahead", "week_ahead", "quarterly"],
       "description": "The time horizon of the forecast."
     },
     "inputs": {
@@ -70,6 +70,16 @@
             "type": "string",
             "enum": ["WAIT_FOR_LATEST_FILE", "USE_MOST_RECENT_FILE"],
             "description": "Condition that determines when this input is ready to be used to trigger a model run."
+          },
+          "uploadFileFormat": {
+            "type": "string",
+            "enum": ["json", "csv", "parquet"],
+            "description": "Format of the input file that will be uploaded to the input source."
+          },
+          "targetFileFormat": {
+            "type": "string",
+            "enum": ["json", "csv", "parquet"],
+            "description": "Format of the input file that will be used in the model. Uploaded files will be converted to this format."
           },
           "fetcher": {
             "type": "object",
@@ -117,6 +127,18 @@
           "name": {
             "type": "string",
             "description": "Name of the output variable."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "float",
+              "integer",
+              "string",
+              "boolean",
+              "date",
+              "unknown"
+            ],
+            "description": "Type of the output variable."
           },
           "seriesKey": {
             "type": "boolean",
