@@ -1,7 +1,7 @@
 {
   "name": "Python Demo",
-  "forecastVariable": "PRICE",
-  "timeHorizon": "DAY_AHEAD",
+  "forecastVariable": "price",
+  "timeHorizon": "day_ahead",
   "metadata": {
     "author": "Your Company Name",
     "version": "1.0.0"
@@ -9,7 +9,10 @@
   "inputs": [
     {
       "key": "dispatch_price",
+      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json",
       "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
@@ -21,7 +24,10 @@
     },
     {
       "key": "predispatch_price",
+      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json",
       "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
@@ -33,7 +39,10 @@
     },
     {
       "key": "predispatch_region_sum",
+      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json",
       "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
@@ -47,33 +56,36 @@
   "outputs": [
     {
       "name": "NSW1",
+      "type": "float",
       "seriesKey": true,
       "colour": "#84EDDC"
     },
     {
       "name": "QLD1",
+      "type": "float",
       "seriesKey": true,
       "colour": "#FD4E4E"
     },
     {
       "name": "SA1",
+      "type": "float",
       "seriesKey": true,
       "colour": "#FED600"
     },
     {
       "name": "TAS1",
+      "type": "float",
       "seriesKey": true,
       "colour": "#40A967"
     },
     {
       "name": "VIC1",
+      "type": "float",
       "seriesKey": true,
       "colour": "#1965C6"
     }
   ],
-
   "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
-  "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json",
   "$$id": null,
   "$$modelGroupID": null,
   "$$revision": 0,
