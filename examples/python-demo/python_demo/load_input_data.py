@@ -11,6 +11,7 @@ def load_input_data():
 
     # Read the input data URLs from environment variables.
     # Note the format here - INPUT_<INPUT_SOURCE_NAME>_URL
+    example_static_input_url = os.getenv('INPUT_EXAMPLE_STATIC_INPUT_URL')
     pd_price_url = os.getenv('INPUT_PREDISPATCH_PRICE_URL')
     pd_regionsum_url = os.getenv('INPUT_PREDISPATCH_REGION_SUM_URL')
     dp_url = os.getenv('INPUT_DISPATCH_PRICE_URL')
@@ -18,6 +19,9 @@ def load_input_data():
     # If any of the input URLs are missing, raise an error.
     if not all([pd_price_url, pd_regionsum_url, dp_url]):
         raise ValueError("Missing required input URLs in environment variables")
+
+    print("Downloading example static input data...")
+    example_static_input_json = requests.get(example_static_input_url).json()
 
     # Download input data from the input source URLs.
     print("Downloading predispatch price data...")
@@ -30,4 +34,4 @@ def load_input_data():
     dp_json = requests.get(dp_url).json()
 
     print("Successfully loaded all input data")
-    return pd_price_json, pd_regionsum_json, dp_json
+    return example_static_input_json, pd_price_json, pd_regionsum_json, dp_json

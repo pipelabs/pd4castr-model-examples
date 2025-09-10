@@ -1,1 +1,2 @@
 *.json
+!example_static_input.json
