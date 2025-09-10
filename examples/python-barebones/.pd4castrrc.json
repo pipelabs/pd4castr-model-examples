@@ -1,0 +1,16 @@
+{
+  "name": "Python Barebones Model",
+  "forecastVariable": "price",
+  "timeHorizon": "day_ahead",
+  "metadata": {
+    "author": "Your Company Name",
+    "version": "1.0.0"
+  },
+  "inputs": [],
+  "outputs": [],
+  "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
+  "$$id": null,
+  "$$modelGroupID": null,
+  "$$revision": 0,
+  "$$dockerImage": null
+}
