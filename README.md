@@ -1,6 +1,7 @@
 # pd4castr Model Examples
 
-<!-- TODO: introduction - purpose of repository -->
+Technical documentation and examples for developing models to be ran on the
+[pd4castr](https://pd4castr.com.au/) platform.
 
 ## Documentation
 

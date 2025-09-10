@@ -12,5 +12,6 @@
   "$$id": null,
   "$$modelGroupID": null,
   "$$revision": 0,
-  "$$dockerImage": null
+  "$$dockerImage": null,
+  "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json"
 }
