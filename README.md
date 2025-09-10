@@ -6,9 +6,10 @@
 
 1. [Prerequisites](./docs/001-prerequisites.md)
 2. [Quick Guide](./docs/002-quick-guide.md)
-3. [Creating a Wrapper From Scratch](./docs/003-from-scratch.md)
+3. [Technical Guide](./docs/003-technical-guide.md)
+4. [Model Configuration](./docs/004-model-configuration.md)
 
-## Examples
+## Example Projects
 
-- [python - barebones starter](./examples/python-barebones/)
-- [python - demo](./examples/python-demo/)
+- [Python - Barebones Starter](./examples/python-barebones/)
+- [Python - Demo](./examples/python-demo/)
