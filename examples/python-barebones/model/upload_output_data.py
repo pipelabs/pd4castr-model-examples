@@ -7,7 +7,7 @@ def upload_output_data(results):
     Upload output data to the specified URL.
 
     Args:
-        results: List of dictionaries containing forecast data
+        results: Dictionary containing the model output
     """
     print("Preparing output...")
 
