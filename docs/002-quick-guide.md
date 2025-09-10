@@ -136,7 +136,9 @@ format:
 ```py
 # before - using mock data
 results = generate_mock_output()
+```
 
+```py
 # after (pseudo code) - massage data, load your model, process as needed
 features = generate_features(first_input, second_input)
 
@@ -158,8 +160,8 @@ pd4castr test
 
 Output data will be saved to `test_output/` directory so you can inspect it.
 
-[Click here](./005-output-format.md) for more information on how to structure
-your output data.
+[Click here](./003-technical-guide.md#model-output-format) for more information
+on how to structure your output data.
 
 ## Publishing Your Model
 
