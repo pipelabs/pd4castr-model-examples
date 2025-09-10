@@ -8,6 +8,13 @@
   },
   "inputs": [
     {
+      "key": "example_static_input",
+      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
+      "trigger": "USE_MOST_RECENT_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json"
+    },
+    {
       "key": "dispatch_price",
       "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "trigger": "WAIT_FOR_LATEST_FILE",

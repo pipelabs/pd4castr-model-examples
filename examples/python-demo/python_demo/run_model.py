@@ -2,7 +2,7 @@ import numpy as np
 from datetime import datetime, timedelta
 
 
-def run_model(pd_price_json, pd_regionsum_json, dp_json):
+def run_model(example_static_input_json, pd_price_json, pd_regionsum_json, dp_json):
     """
     Generate mock output data. This is a placeholder for your model.
 
