@@ -63,10 +63,21 @@
       "default": false,
       "description": "Whether the model is publicly accessible."
     },
+    "runMode": {
+      "type": "string",
+      "enum": ["AUTOMATIC", "ON_DEMAND"],
+      "description": "How runs are triggered. AUTOMATIC runs when new input data arrives; ON_DEMAND runs only when explicitly triggered."
+    },
     "runDatetimeQuery": {
       "type": ["null", "string"],
       "default": null,
       "description": "Path to SQL query for determining the model run datetime."
+    },
+    "outputFileFormat": {
+      "type": "string",
+      "enum": ["json", "csv", "parquet"],
+      "default": "json",
+      "description": "Format of the model output file."
     },
     "inputs": {
       "type": "array",
@@ -193,8 +204,7 @@
               "integer",
               "string",
               "date",
-              "boolean",
-              "unknown"
+              "boolean"
             ],
             "description": "Type of the output variable."
           },
