@@ -1,16 +1,23 @@
-# pd4castr Model Examples
+<div align="center">
+  <img src="./docs/assets/logo.png" alt="pd4castr logo" width="92">
 
-Technical documentation and examples for developing models to be ran on the
-[pd4castr](https://pd4castr.com.au/) platform.
+  <h1>pd4castr Model Examples</h1>
 
-## Documentation
+  <p>
+    Example projects for developing models to run on the
+    <a href="https://pd4castr.com.au/">pd4castr</a> platform.
+  </p>
 
-1. [Prerequisites](./docs/001-prerequisites.md)
-2. [Quick Guide](./docs/002-quick-guide.md)
-3. [Technical Guide](./docs/003-technical-guide.md)
-4. [Model Configuration](./docs/004-model-configuration.md)
+  <p>
+    <a href="#example-projects">Examples</a> •
+    <a href="https://docs.v2.pd4castr.com.au">Documentation</a>
+  </p>
+
+</div>
 
 ## Example Projects
 
-- [Python - Barebones Starter](./examples/python-barebones/)
-- [Python - Demo](./examples/python-demo/)
+| Project | Description |
+| --- | --- |
+| [Python - Barebones Starter](./examples/python-barebones/) | Minimal project to get started quickly |
+| [Python - Demo](./examples/python-demo/) | Full-featured example with sample inputs and outputs |
