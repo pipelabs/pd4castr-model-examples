@@ -5,24 +5,34 @@
   "description": "Schema for .pd4castrrc.json configuration files",
   "type": "object",
   "additionalProperties": true,
+  "required": ["name", "forecastVariable", "timeHorizon", "inputs", "outputs"],
   "properties": {
     "$$id": {
       "type": ["null", "string"],
+      "default": null,
       "description": "DO NOT EDIT: Unique ID for the model."
     },
     "$$modelGroupID": {
       "type": ["null", "string"],
+      "default": null,
       "description": "DO NOT EDIT: Unique ID of the group the model belongs to."
     },
     "$$revision": {
-      "type": "integer",
+      "type": ["null", "integer"],
       "minimum": 0,
-      "default": 0,
-      "description": "DO NOT EDIT: Revision of the model"
+      "default": null,
+      "description": "DO NOT EDIT: Revision of the model."
     },
     "$$dockerImage": {
       "type": ["null", "string"],
+      "default": null,
       "description": "DO NOT EDIT: Docker image name. Initially null until published, then populated with the image name."
+    },
+    "$$configVersion": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "DO NOT EDIT: Configuration version number."
     },
     "name": {
       "type": "string",
@@ -31,14 +41,7 @@
     "metadata": {
       "type": "object",
       "description": "Flexible object for storing model metadata. Can contain any properties.",
-      "additionalProperties": true,
-      "examples": [
-        {
-          "author": "Your Company Name",
-          "version": "1.0.0",
-          "trainedOn": "2025-07-10"
-        }
-      ]
+      "additionalProperties": true
     },
     "forecastVariable": {
       "type": "string",
@@ -47,12 +50,27 @@
     },
     "timeHorizon": {
       "type": "string",
-      "enum": ["actual", "day_ahead", "week_ahead", "quarterly"],
+      "enum": ["day_ahead", "week_ahead", "quarterly", "historical"],
       "description": "The time horizon of the forecast."
+    },
+    "displayTimezone": {
+      "type": "string",
+      "default": "Australia/Brisbane",
+      "description": "IANA time zone used for displaying model data."
+    },
+    "public": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the model is publicly accessible."
+    },
+    "runDatetimeQuery": {
+      "type": ["null", "string"],
+      "default": null,
+      "description": "Path to SQL query for determining the model run datetime."
     },
     "inputs": {
       "type": "array",
-      "description": "Array of model inputs with optional data fetchers",
+      "description": "Array of model inputs with optional data fetchers.",
       "items": {
         "type": "object",
         "required": ["key", "trigger"],
@@ -74,11 +92,13 @@
           "uploadFileFormat": {
             "type": "string",
             "enum": ["json", "csv", "parquet"],
+            "default": "json",
             "description": "Format of the input file that will be uploaded to the input source."
           },
           "targetFileFormat": {
             "type": "string",
             "enum": ["json", "csv", "parquet"],
+            "default": "json",
             "description": "Format of the input file that will be used in the model. Uploaded files will be converted to this format."
           },
           "fetcher": {
@@ -116,17 +136,55 @@
         }
       }
     },
-    "outputs": {
+    "inputAggregations": {
       "type": "array",
-      "description": "Array of model outputs variables.",
+      "default": [],
+      "description": "Array of input aggregation definitions.",
       "items": {
         "type": "object",
-        "required": ["name", "seriesKey"],
+        "required": ["name", "query"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the input aggregation."
+          },
+          "query": {
+            "type": "string",
+            "description": "Path to SQL query for the aggregation."
+          },
+          "description": {
+            "type": "string",
+            "default": "",
+            "description": "Description of the input aggregation."
+          },
+          "colours": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "description": "Array of colour values for the aggregation."
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "description": "Array of model output variables.",
+      "items": {
+        "type": "object",
+        "required": ["name", "key", "type", "seriesKey"],
         "additionalProperties": false,
         "properties": {
           "name": {
             "type": "string",
             "description": "Name of the output variable."
+          },
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]*$",
+            "description": "Unique key for referencing this output. Lowercase alphanumeric with hyphens and underscores."
           },
           "type": {
             "type": "string",
@@ -134,8 +192,8 @@
               "float",
               "integer",
               "string",
-              "boolean",
               "date",
+              "boolean",
               "unknown"
             ],
             "description": "Type of the output variable."
@@ -148,6 +206,31 @@
             "type": "string",
             "pattern": "^#[0-9A-Fa-f]{6}$",
             "description": "Hex color code that will be used to display this output."
+          }
+        }
+      }
+    },
+    "sensitivities": {
+      "type": "array",
+      "default": [],
+      "description": "Array of sensitivity analysis definitions.",
+      "items": {
+        "type": "object",
+        "required": ["name", "key", "query"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the sensitivity."
+          },
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_-]*$",
+            "description": "Unique key for referencing this sensitivity. Lowercase alphanumeric with hyphens and underscores."
+          },
+          "query": {
+            "type": "string",
+            "description": "Path to SQL query for the sensitivity."
           }
         }
       }
