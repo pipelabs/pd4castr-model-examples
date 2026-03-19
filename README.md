@@ -9,7 +9,6 @@
   </p>
 
   <p>
-    <a href="#example-projects">Examples</a> •
     <a href="https://docs.v2.pd4castr.com.au">Documentation</a>
   </p>
 
