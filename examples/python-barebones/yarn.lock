@@ -129,28 +129,35 @@
     ansi-escapes "^4.3.2"
     yoctocolors-cjs "^2.1.2"
 
+"@inquirer/type@3.0.10":
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/@inquirer/type/-/type-3.0.10.tgz#11ed564ec78432a200ea2601a212d24af8150d50"
+  integrity sha512-BvziSRxfz5Ov8ch0z/n3oijRSEcEsHnhggm4xFZe93DHcUCTlutlq9Ox4SVENAfcRD22UQq7T/atg9Wr3k09eA==
+
 "@inquirer/type@^3.0.8":
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/@inquirer/type/-/type-3.0.8.tgz#efc293ba0ed91e90e6267f1aacc1c70d20b8b4e8"
   integrity sha512-lg9Whz8onIHRthWaN1Q9EGLa/0LFJjyM8mEUbL1eTi6yMGvBf8gvyDLtxSXztQsxMvhxxNpJYrwa1YHdq+w4Jw==
 
-"@pd4castr/cli@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@pd4castr/cli/-/cli-0.0.12.tgz#73971d17a156f0b06cc7ef10f8cb86dac2dca882"
-  integrity sha512-s/IdRA4PQkGN3CQ3FL9q6suGZZRERSrvxfU07UV1LQXW5AbgbGnYslGuZtdM93NtCFTyblUuAht6XpookMMA2w==
+"@pd4castr/cli@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@pd4castr/cli/-/cli-2.2.0.tgz#fdb3002382e3333a900913137298eda8ef31004a"
+  integrity sha512-ROj4jyfrWVqq++eja57z1tGs6RSu0PukO9uc4VF2A0Z5VjGgjyGBJIfNGL+y5bn6IrBKZce8WPUU/0LZ3Jy+Vg==
   dependencies:
     "@inquirer/prompts" "7.7.1"
-    auth0 "4.27.0"
+    "@inquirer/type" "3.0.10"
+    auth0 "4.28.0"
     chalk "5.6.0"
     commander "14.0.0"
     execa "9.6.0"
     express "4.21.2"
     immer "10.1.1"
-    ky "1.8.2"
+    ky "1.14.2"
     ora "8.2.0"
-    slugify "1.6.6"
+    promise-retry "2.0.1"
     tiged "2.12.7"
     tiny-invariant "1.3.3"
+    ts-pattern "5.8.0"
     zod "4.0.14"
 
 "@sec-ant/readable-stream@^0.4.1":
@@ -212,10 +219,10 @@ array-flatten@1.1.1:
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==
 
-auth0@4.27.0:
-  version "4.27.0"
-  resolved "https://registry.yarnpkg.com/auth0/-/auth0-4.27.0.tgz#92a2524fe78911246f3f50bcd1403203d190831e"
-  integrity sha512-4FGgjzKCH/f7rQLQVR5dM30asjOObeW3PyHa8bQrS4rKkuv22JoNxox26fb1FZ3hI4zEgbVbPm9x7pHrljZzrw==
+auth0@4.28.0:
+  version "4.28.0"
+  resolved "https://registry.yarnpkg.com/auth0/-/auth0-4.28.0.tgz#0998af3eec75b1b43b2ddf5a5db0faf028d40a22"
+  integrity sha512-fBtJnZ+G/W53pkbkwMrPlfaJPLAD/wwDaNnUqta8sY+sgIxbQdTfkiaHc5FcRNtaX96M7cQBX9KEgKixF5XKlA==
   dependencies:
     jose "^4.13.2"
     undici-types "^6.15.0"
@@ -432,6 +439,11 @@ enquirer@2.3.6:
   integrity sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
   dependencies:
     ansi-colors "^4.1.1"
+
+err-code@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/err-code/-/err-code-2.0.3.tgz#23c2f3b756ffdfc608d30e27c9a941024807e7f9"
+  integrity sha512-2bmlRpNKBxT/CRmPOlyISQpNj+qSeYvcym/uT0Jx2bMOlKLtSy1ZmLuVxSEKKyor/N5yhvp/ZiG1oE3DEYMSFA==
 
 es-define-property@^1.0.1:
   version "1.0.1"
@@ -769,10 +781,10 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-ky@1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/ky/-/ky-1.8.2.tgz#161cba76e4a86b43829565b9a9c8d21d03e602db"
-  integrity sha512-XybQJ3d4Ea1kI27DoelE5ZCT3bSJlibYTtQuMsyzKox3TMyayw1asgQdl54WroAm+fIA3ZCr8zXW2RpR7qWVpA==
+ky@1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/ky/-/ky-1.14.2.tgz#385d6d05d2825502e68898ace125124e6fe7357d"
+  integrity sha512-q3RBbsO5A5zrPhB6CaCS8ZUv+NWCXv6JJT4Em0i264G9W0fdPB8YRfnnEi7Dm7X7omAkBIPojzYJ2D1oHTHqug==
 
 log-symbols@^6.0.0:
   version "6.0.0"
@@ -972,6 +984,14 @@ pretty-ms@^9.2.0:
   dependencies:
     parse-ms "^4.0.0"
 
+promise-retry@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/promise-retry/-/promise-retry-2.0.1.tgz#ff747a13620ab57ba688f5fc67855410c370da22"
+  integrity sha512-y+WKFlBR8BGXnsNlIHFGPZmyDf3DFMoLhaflAnyZgV6rG6xu+JwesTo2Q9R6XwYmtmwAFCkAk3e35jEdoeh/3g==
+  dependencies:
+    err-code "^2.0.2"
+    retry "^0.12.0"
+
 proxy-addr@~2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/proxy-addr/-/proxy-addr-2.0.7.tgz#f19fe69ceab311eeb94b42e70e8c2070f9ba1025"
@@ -1009,6 +1029,11 @@ restore-cursor@^5.0.0:
   dependencies:
     onetime "^7.0.0"
     signal-exit "^4.1.0"
+
+retry@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/retry/-/retry-0.12.0.tgz#1b42a6266a21f07421d1b0b54b7dc167b01c013b"
+  integrity sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==
 
 rimraf@3.0.2:
   version "3.0.2"
@@ -1118,11 +1143,6 @@ signal-exit@^4.1.0:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
 
-slugify@1.6.6:
-  version "1.6.6"
-  resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.6.tgz#2d4ac0eacb47add6af9e04d3be79319cbcc7924b"
-  integrity sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==
-
 statuses@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
@@ -1221,6 +1241,11 @@ toidentifier@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
+
+ts-pattern@5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/ts-pattern/-/ts-pattern-5.8.0.tgz#1bf2dcdc58ae96ac7b64e59c9515d7ce1bf0ff19"
+  integrity sha512-kIjN2qmWiHnhgr5DAkAafF9fwb0T5OhMVSWrm8XEdTFnX6+wfXwYOFjeF86UZ54vduqiR7BfqScFmXSzSaH8oA==
 
 type-fest@^0.21.3:
   version "0.21.3"
