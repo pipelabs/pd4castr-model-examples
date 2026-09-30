@@ -1,63 +1,68 @@
 {
   "name": "Python Demo",
+  "summary": "Demonstration half-hourly NEM price forecast across the five regions.",
   "forecastVariable": "price",
   "timeHorizon": "day_ahead",
+  "displayTimezone": "Australia/Brisbane",
   "metadata": {
     "author": "Your Company Name",
     "version": "1.0.0"
   },
+  "runMode": "AUTOMATIC",
+  "outputFileFormat": "json",
   "inputs": [
     {
       "key": "example_static_input",
-      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
+      "file": "test_input/example_static_input.json",
+      "source": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "trigger": "USE_MOST_RECENT_FILE",
       "uploadFileFormat": "json",
       "targetFileFormat": "json"
     },
     {
       "key": "dispatch_price",
-      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
-      "trigger": "WAIT_FOR_LATEST_FILE",
-      "uploadFileFormat": "json",
-      "targetFileFormat": "json",
+      "source": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
         "config": {
-          "checkQuery": "queries/dispatch_price_check.sql",
-          "fetchQuery": "queries/dispatch_price_fetch.sql"
+          "checkQuery": "queries/data-fetchers/dispatch_price_check.sql",
+          "fetchQuery": "queries/data-fetchers/dispatch_price_fetch.sql"
         }
-      }
+      },
+      "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json"
     },
     {
       "key": "predispatch_price",
-      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
-      "trigger": "WAIT_FOR_LATEST_FILE",
-      "uploadFileFormat": "json",
-      "targetFileFormat": "json",
+      "source": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
         "config": {
-          "checkQuery": "queries/predispatch_price_check.sql",
-          "fetchQuery": "queries/predispatch_price_fetch.sql"
+          "checkQuery": "queries/data-fetchers/predispatch_price_check.sql",
+          "fetchQuery": "queries/data-fetchers/predispatch_price_fetch.sql"
         }
-      }
+      },
+      "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json"
     },
     {
       "key": "predispatch_region_sum",
-      "inputSource": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
-      "trigger": "WAIT_FOR_LATEST_FILE",
-      "uploadFileFormat": "json",
-      "targetFileFormat": "json",
+      "source": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
       "fetcher": {
         "type": "AEMO_MMS",
         "checkInterval": 300,
         "config": {
-          "checkQuery": "queries/predispatch_region_sum_check.sql",
-          "fetchQuery": "queries/predispatch_region_sum_fetch.sql"
+          "checkQuery": "queries/data-fetchers/predispatch_region_sum_check.sql",
+          "fetchQuery": "queries/data-fetchers/predispatch_region_sum_fetch.sql"
         }
-      }
+      },
+      "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json"
     }
   ],
   "outputs": [
@@ -100,7 +105,7 @@
   "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
   "$$id": null,
   "$$modelGroupID": null,
-  "$$configVersion": 0,
+  "$$configVersion": 7,
   "$$revision": null,
   "$$dockerImage": null,
   "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json"
