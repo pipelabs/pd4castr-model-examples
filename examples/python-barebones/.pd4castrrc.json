@@ -1,17 +1,21 @@
 {
   "name": "Python Barebones Model",
+  "summary": "",
   "forecastVariable": "price",
   "timeHorizon": "day_ahead",
+  "displayTimezone": "Australia/Brisbane",
   "metadata": {
     "author": "Your Company Name",
     "version": "1.0.0"
   },
+  "runMode": "AUTOMATIC",
+  "outputFileFormat": "json",
   "inputs": [],
   "outputs": [],
   "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
   "$$id": null,
   "$$modelGroupID": null,
-  "$$configVersion": 0,
+  "$$configVersion": 7,
   "$$revision": null,
   "$$dockerImage": null,
   "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json"
