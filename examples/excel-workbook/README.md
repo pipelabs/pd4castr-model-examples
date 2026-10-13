@@ -80,8 +80,8 @@ interval. It is positive when the battery discharges into the grid and negative
 when the battery charges from it. The workbook applies the whole round-trip loss
 when the battery charges. With the sample efficiency in `B6`, the battery stores
 0.85 MWh for each 1 MWh it draws, and sends all the energy it discharges to the
-grid. Revenue is the price times grid energy, so revenue is negative in an
-interval where the battery charges.
+grid. Revenue is the price times grid energy. NEM prices can fall below zero, so
+charging costs money at a positive price and earns money at a negative one.
 
 Each output row holds these values:
 
@@ -120,13 +120,18 @@ this directory.
 
    Expect `OK: 32 rows match the reference plan`.
 
-`yarn pd4castr test` runs the container without CPU or memory limits. To see how
-the sample workbook runs on a small allocation, run the image that
-`yarn pd4castr test` builds with
-`docker run --platform linux/amd64 --cpus=0.25 --memory=512m --memory-swap=512m`.
-At those limits, a run takes 10 to 15 s, and LibreOffice accounts for 8 to 11 s
-of that. Memory use peaks at 220 to 380 MiB. The image is 489 MB. Compare your
-own workbook against these figures.
+`yarn pd4castr test` runs the container without CPU or memory limits. Under the
+limits
+`docker run --platform linux/amd64 --cpus=0.25 --memory=512m --memory-swap=512m`,
+a run of the sample workbook takes 10 to 15 s, and LibreOffice accounts for 8 to
+11 s of that. Memory use peaks at 220 to 380 MiB. The image is 489 MB. Compare
+your own workbook against these figures.
+
+To repeat the measurement, run the image that `yarn pd4castr test` builds, which
+it tags `pd4castr/excel-workbook-local:<timestamp>`, with those limits. Point
+`INPUT_PREDISPATCH_PRICE_URL` at a local server that serves
+`test_input/predispatch_price.json`, and point `OUTPUT_URL` at a server that
+accepts a PUT.
 
 ## Using your own workbook
 
@@ -138,21 +143,31 @@ in `.pd4castrrc.json`:
 2. Set `WORKBOOK_FILE` in `model/layout.py` to the workbook's file name.
 3. Set `INPUTS_SHEET` and `OUTPUTS_SHEET` to the names of your input and output
    sheets.
-4. Set `REGION_CELL` to the cell that holds the region.
-5. Set `PRICE_TABLE_FIRST_ROW`, `PRICE_TABLE_DATETIME_COLUMN` and
-   `PRICE_TABLE_PRICE_COLUMN` to where your price table starts.
+4. Set `REGION_CELL` to the address of the region cell on the input sheet, such
+   as `"B2"`.
+5. Set `PRICE_TABLE_FIRST_ROW` to the price table's first data row, below any
+   header. Set `PRICE_TABLE_DATETIME_COLUMN` and `PRICE_TABLE_PRICE_COLUMN` to
+   the column numbers of its `DATETIME` and price columns, counting column A
+   as 1.
 6. Set `PRICE_TABLE_CAPACITY` to the number of rows in your price table. The
    model clears that many rows before it writes the prices.
-7. Set `OUTPUTS_FIRST_ROW` and `OUTPUT_FIRST_COLUMN` to the first data cell of
-   your output sheet. The output sheet needs one row per interval, in
-   price-table order. Its first column holds the interval's `DATETIME`, and
-   every other column must calculate to a number.
-8. List a key for each output sheet column in `OUTPUT_COLUMNS`, in sheet order.
-   Keep `forecast_datetime` as the first key, since pd4castr reads each row's
-   time from it.
-9. Give each output column after `forecast_datetime` an entry under `outputs` in
-   `.pd4castrrc.json`, with the same `key` as in `OUTPUT_COLUMNS`.
-10. Run `yarn pd4castr test`.
+7. Set `OUTPUTS_FIRST_ROW` to the output sheet's first data row, and
+   `OUTPUT_FIRST_COLUMN` to the column number of its first column, counting
+   column A as 1.
+8. Fill the output sheet with one row per interval, in price-table order. The
+   first column holds the interval's `DATETIME`, and every other column must
+   calculate to a number.
+9. Make every output row past the last interval calculate to empty text. The
+   sample guards each formula with `IF(<datetime cell>="","",<formula>)`,
+   because a plain reference to an empty cell calculates to 0.
+10. List a key for each output sheet column in `OUTPUT_COLUMNS`, in sheet order.
+    Keep `forecast_datetime` as the first key, since pd4castr reads each row's
+    time from it.
+11. Make the `outputs` list in `.pd4castrrc.json` hold one entry for each key in
+    `OUTPUT_COLUMNS` after `forecast_datetime`, with the same `key`, and remove
+    the sample entries your sheet doesn't produce. pd4castr rejects an output
+    row that lacks a key the `outputs` list declares.
+12. Run `yarn pd4castr test`.
 
 The model stops with an error in these cases, among others:
 
@@ -165,6 +180,8 @@ The model stops with an error in these cases, among others:
   `Outputs!<cell> is <value>, expected <datetime>; LibreOffice did not recalculate or the Outputs sheet does not line up with the price table`.
 - An output cell doesn't hold a number:
   `Outputs!<cell> is <value>, expected a number; LibreOffice did not calculate the workbook`.
+- The output row after the last interval isn't empty:
+  `Outputs sheet has more rows than the <count> intervals in the price table`.
 
 The scripts in `scripts/` hardcode the sample workbook's layout and battery
 parameters. `scripts/build_workbook.py` regenerates `model/battery_plan.xlsx`.

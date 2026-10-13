@@ -45,8 +45,8 @@ def build_inputs_cells() -> dict[str, object]:
         ("Energy capacity", p["capacity_mwh"], "MWh"),
         ("Starting state of charge", p["start_soc_mwh"], "MWh"),
         ("Round-trip efficiency", p["efficiency"], "fraction, applied when charging"),
-        ("Charge percentile", p["charge_percentile"], "fraction of the price range, 0 to 1"),
-        ("Discharge percentile", p["discharge_percentile"], "fraction of the price range, 0 to 1"),
+        ("Charge percentile", p["charge_percentile"], "PERCENTILE of the prices, 0 to 1"),
+        ("Discharge percentile", p["discharge_percentile"], "PERCENTILE of the prices, 0 to 1"),
         ("Interval length", p["interval_hours"], "hours"),
     ]
     for offset, (label, value, note) in enumerate(parameter_rows):

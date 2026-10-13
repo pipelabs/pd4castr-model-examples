@@ -43,6 +43,6 @@ def load_output_rows(path, price_table: list[tuple[str, float]]) -> list[dict]:
     ).value
     if extra not in (None, ""):
         raise RuntimeError(
-            f"Outputs sheet has more rows than the {len(price_table)} intervals in the price table"
+            f"{OUTPUTS_SHEET} sheet has more rows than the {len(price_table)} intervals in the price table"
         )
     return rows
