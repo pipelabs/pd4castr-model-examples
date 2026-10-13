@@ -1,11 +1,15 @@
 {
   "name": "Excel Workbook",
+  "summary": "Half-hourly battery charge and discharge plan for one NEM region, calculated in an Excel workbook.",
   "forecastVariable": "price",
   "timeHorizon": "day_ahead",
+  "displayTimezone": "Australia/Brisbane",
   "metadata": {
     "author": "Your Company Name",
     "version": "1.0.0"
   },
+  "runMode": "AUTOMATIC",
+  "outputFileFormat": "json",
   "inputs": [
     {
       "key": "predispatch_price",
@@ -17,8 +21,8 @@
         "type": "AEMO_MMS",
         "checkInterval": 300,
         "config": {
-          "checkQuery": "queries/predispatch_price_check.sql",
-          "fetchQuery": "queries/predispatch_price_fetch.sql"
+          "checkQuery": "queries/data-fetchers/predispatch_price_check.sql",
+          "fetchQuery": "queries/data-fetchers/predispatch_price_fetch.sql"
         }
       }
     }
