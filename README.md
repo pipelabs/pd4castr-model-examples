@@ -20,3 +20,4 @@
 | --- | --- |
 | [Python - Barebones Starter](./examples/python-barebones/) | Minimal project to get started quickly |
 | [Python - Demo](./examples/python-demo/) | Full-featured example with sample inputs and outputs |
+| [Excel - Battery Workbook](./examples/excel-workbook/) | Battery charge/discharge plan calculated by formulas in an Excel workbook |
