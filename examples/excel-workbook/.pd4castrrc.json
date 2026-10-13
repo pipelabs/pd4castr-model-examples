@@ -1,0 +1,74 @@
+{
+  "name": "Excel Workbook",
+  "summary": "Half-hourly battery charge and discharge plan for one NEM region, calculated in an Excel workbook.",
+  "forecastVariable": "price",
+  "timeHorizon": "day_ahead",
+  "displayTimezone": "Australia/Brisbane",
+  "metadata": {
+    "author": "Your Company Name",
+    "version": "1.0.0"
+  },
+  "runMode": "AUTOMATIC",
+  "outputFileFormat": "json",
+  "inputs": [
+    {
+      "key": "predispatch_price",
+      "storageLocation": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
+      "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json",
+      "fetcher": {
+        "type": "AEMO_MMS",
+        "checkInterval": 300,
+        "config": {
+          "checkQuery": "queries/data-fetchers/predispatch_price_check.sql",
+          "fetchQuery": "queries/data-fetchers/predispatch_price_fetch.sql"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Price",
+      "key": "price",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#1965C6"
+    },
+    {
+      "name": "Power (MW)",
+      "key": "power_mw",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#FD4E4E"
+    },
+    {
+      "name": "State of charge (MWh)",
+      "key": "soc_mwh",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#40A967"
+    },
+    {
+      "name": "Revenue ($)",
+      "key": "revenue",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#FED600"
+    },
+    {
+      "name": "Cumulative revenue ($)",
+      "key": "cumulative_revenue",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#84EDDC"
+    }
+  ],
+  "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
+  "$$id": null,
+  "$$modelGroupID": null,
+  "$$configVersion": 8,
+  "$$revision": null,
+  "$$dockerImage": null,
+  "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json"
+}
