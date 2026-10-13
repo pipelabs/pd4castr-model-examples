@@ -3,7 +3,7 @@
 This example is a model for [pd4castr](https://docs.v2.pd4castr.com.au), the
 platform that runs electricity price forecasting models and compares their
 forecasts. The model is an R script that forecasts each region's half-hourly
-price for the next day with the
+price for the next 24 hours with the
 [`forecast`](https://pkg.robjhyndman.com/forecast/) package, and gives each
 forecast an 80% prediction interval. Start from this example to package an R
 model for pd4castr.
@@ -19,7 +19,7 @@ half-hours ahead.
 
 | Path                         | Contents                                       |
 | ---------------------------- | ---------------------------------------------- |
-| `model/main.R`               | The script the image runs                      |
+| `model/main.R`               | The script the Docker image runs               |
 | `model/load_input_data.R`    | Downloads the input                            |
 | `model/run_model.R`          | The forecasting method                         |
 | `model/upload_output_data.R` | Uploads the forecast                           |
@@ -36,8 +36,8 @@ from it, and the container uploads the forecast.
 `.pd4castrrc.json` declares one input, `dispatch_price`, and its `fetcher` entry
 lists the two queries in `queries/data-fetchers/` that pd4castr runs against
 AEMO's market data. Every 5 minutes, pd4castr runs `dispatch_price_check.sql`,
-which returns the latest `HH:00` or `HH:30` time that AEMO has published a
-dispatch price for. When that time changes, pd4castr runs
+which returns the latest half-hour boundary (`HH:00` or `HH:30`) that has a
+published dispatch price. When that time changes, pd4castr runs
 `dispatch_price_fetch.sql` and starts a model run, so the model runs every 30
 minutes.
 
@@ -79,34 +79,38 @@ one region:
 ```
 
 Each column matches the `key` of an entry in the `outputs` list of
-`.pd4castrrc.json`. The entries for the forecast columns set
-`"seriesKey": true`, so the forecast chart in the pd4castr app draws a line for
-each region. The entries for the bound columns set `"seriesKey": false`, so the
-chart leaves them out. pd4castr stores every column of the forecast with the
-run.
+`.pd4castrrc.json`. An entry's `seriesKey` sets whether the forecast chart in
+the pd4castr app draws the column as a line. The entries for the point forecast
+columns, such as `nsw1`, set `"seriesKey": true`, so the chart draws a line for
+each region. The entries for the bound columns set `"seriesKey": false`.
+pd4castr stores the bound columns with the run even though the chart leaves them
+out.
 
 ## The forecasting method
 
 `run_model.R` forecasts each region separately, in 4 steps:
 
-1. It clips the region's prices to their own 1st and 99th percentiles, which the
-   `CLIP_QUANTILES` constant at the top of `run_model.R` sets. A price spike can
-   reach thousands of dollars per megawatt-hour in a single half-hour, and the
-   clip stops one spike from pulling the fitted daily and weekly patterns
-   towards it.
+1. It clips the region's prices to their own 1st and 99th percentiles. A price
+   spike can reach thousands of dollars per megawatt-hour in a single half-hour,
+   and the clip stops one spike from pulling the fitted daily and weekly
+   patterns towards it. The `CLIP_QUANTILES` constant sets the percentiles.
 2. It places the clipped prices on a complete half-hour grid and interpolates
    any half-hour missing from the input with `forecast::na.interp`.
-3. It fits `forecast::stlf` with `method = "ets"`. Seasonal and trend
-   decomposition using Loess (STL) splits the prices into a daily pattern (48
-   half-hours), a weekly pattern (336 half-hours) and the remainder. An
-   exponential smoothing (ETS) model forecasts the prices without those
-   patterns, and `stlf` adds the daily and weekly patterns back.
-4. It takes the forecast and the 80% prediction interval for the next 48
+3. It fits `forecast::stlf` with `method = "ets"`. STL, a seasonal and trend
+   decomposition that uses local regression, splits the prices into a daily
+   pattern, a weekly pattern, and a seasonally adjusted series that holds the
+   trend and the remainder. The daily pattern repeats every 48 half-hours and
+   the weekly pattern every 336. An exponential smoothing (ETS) model forecasts
+   the seasonally adjusted series, and `stlf` adds the daily and weekly patterns
+   back.
+4. It takes the point forecast and the 80% prediction interval for the next 48
    half-hours.
 
-The script stops with an error, and uploads nothing, when a region has fewer
-than 3 weeks of prices in the input. It also stops when a forecast value is
-missing or falls outside its prediction interval.
+`run_model.R` stops with an error when a region has fewer than 3 weeks of prices
+in the input. It also stops when any value in the forecast is missing or
+infinite, or when a point forecast falls outside its prediction interval, so a
+broken fit never reaches pd4castr. In both cases `main.R` uploads nothing and
+the run fails.
 
 ## Resource limits
 
@@ -118,27 +122,27 @@ kernel keeps in memory. The R process alone peaks at about 172 MiB.
 
 Two methods that model daily and weekly patterns don't fit in those limits:
 
-- TBATS (`forecast::tbats`) needs more than 512 MiB on 8 weeks of prices, so the
-  platform kills the container.
+- TBATS (`forecast::tbats`) needs more than 512 MiB on 8 weeks of prices, so
+  pd4castr stops the container.
 - `forecast::auto.arima` with Fourier terms for both patterns runs for more than
   600 s at 0.25 vCPU.
 
 ## Editing the model
 
-Most changes to the forecast are edits to the constants at the top of
-`model/run_model.R`. Changes to the prediction interval, the input window, the
-forecast's columns or the R packages also touch other files.
+The constants at the top of `model/run_model.R` set the forecast horizon, the
+clip, the prediction interval and the seasonal periods. Changes to the
+prediction interval, the fetch window, the forecast's columns or the R packages
+also touch other files.
 
-The constants at the top of `run_model.R` set the forecast horizon, the clip,
-the prediction interval and the seasonal periods. When you change
-`INTERVAL_LEVEL`, change the `80%` in the `name` of each bound column's entry in
-`.pd4castrrc.json`, such as `NSW1 lower 80%`. Leave each `key` as it is, because
-the column names in `run_model.R` don't include the level.
+When you change `INTERVAL_LEVEL`, change the `80%` in the `name` of each bound
+column's entry in `.pd4castrrc.json`, such as `NSW1 lower 80%`. Leave each `key`
+as it is, because the column names in `run_model.R` don't include the level.
 
-`dispatch_price_fetch.sql` fetches 8 weeks of prices (`interval '56 days'`).
-`run_model.R` needs at least 3 weeks of prices for each region: `MIN_OBSERVED`
-holds that minimum, in half-hours. STL drops the weekly pattern from a shorter
-series. Keep the fetch window at 3 weeks or more.
+The fetch window is the 8 weeks of prices that `dispatch_price_fetch.sql`
+returns (`interval '56 days'`). With exactly 2 weeks of prices, STL drops the
+weekly pattern, so `run_model.R` needs at least 3 weeks for each region.
+`MIN_OBSERVED` holds that minimum, in half-hours. Keep the fetch window at 3
+weeks or more.
 
 pd4castr fails any run whose forecast is missing a column that the `outputs`
 list in `.pd4castrrc.json` holds. When you add or remove a column in
@@ -197,7 +201,7 @@ options.
 
 The `Dockerfile` starts from `debian:12.15-slim` and installs R and the
 `forecast`, `httr` and `jsonlite` packages from Debian, which ships them
-prebuilt. The build takes about 1 minute and compiles nothing. Debian 12 ships R
-4.2.2 and `forecast` 8.20. The `Dockerfile` then deletes documentation,
-translations, and each R package's help and tests. The image is 227 MB, or 103
-MB compressed.
+prebuilt. The build takes about 1 minute and compiles nothing. After the
+install, the `Dockerfile` deletes documentation, translations, and each R
+package's help and tests. Debian 12 ships R 4.2.2 and `forecast` 8.20. The image
+is 227 MB, or 103 MB compressed.
