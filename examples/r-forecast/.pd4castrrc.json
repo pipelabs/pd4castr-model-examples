@@ -1,0 +1,134 @@
+{
+  "name": "R Forecast",
+  "summary": "Half-hourly NEM price forecast for the next day from an STL and ETS model in R, with 80% prediction intervals.",
+  "forecastVariable": "price",
+  "timeHorizon": "day_ahead",
+  "displayTimezone": "Australia/Brisbane",
+  "metadata": {
+    "author": "Your Company Name",
+    "version": "1.0.0"
+  },
+  "runMode": "AUTOMATIC",
+  "outputFileFormat": "json",
+  "inputs": [
+    {
+      "key": "dispatch_price",
+      "storageLocation": "0bdfd52b-efaa-455e-9a3b-1a6d2b879b73",
+      "fetcher": {
+        "type": "AEMO_MMS",
+        "checkInterval": 300,
+        "config": {
+          "checkQuery": "queries/data-fetchers/dispatch_price_check.sql",
+          "fetchQuery": "queries/data-fetchers/dispatch_price_fetch.sql"
+        }
+      },
+      "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "NSW1",
+      "key": "nsw1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#84EDDC"
+    },
+    {
+      "name": "QLD1",
+      "key": "qld1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#FD4E4E"
+    },
+    {
+      "name": "SA1",
+      "key": "sa1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#FED600"
+    },
+    {
+      "name": "TAS1",
+      "key": "tas1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#40A967"
+    },
+    {
+      "name": "VIC1",
+      "key": "vic1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#1965C6"
+    },
+    {
+      "name": "NSW1 lower 80%",
+      "key": "nsw1_lower",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "NSW1 upper 80%",
+      "key": "nsw1_upper",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "QLD1 lower 80%",
+      "key": "qld1_lower",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "QLD1 upper 80%",
+      "key": "qld1_upper",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "SA1 lower 80%",
+      "key": "sa1_lower",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "SA1 upper 80%",
+      "key": "sa1_upper",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "TAS1 lower 80%",
+      "key": "tas1_lower",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "TAS1 upper 80%",
+      "key": "tas1_upper",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "VIC1 lower 80%",
+      "key": "vic1_lower",
+      "type": "float",
+      "seriesKey": false
+    },
+    {
+      "name": "VIC1 upper 80%",
+      "key": "vic1_upper",
+      "type": "float",
+      "seriesKey": false
+    }
+  ],
+  "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
+  "$$id": null,
+  "$$modelGroupID": null,
+  "$$configVersion": 8,
+  "$$revision": null,
+  "$$dockerImage": null,
+  "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json"
+}
