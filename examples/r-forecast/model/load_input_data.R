@@ -3,7 +3,7 @@
 load_dispatch_prices <- function(url) {
   message("Downloading dispatch_price input...")
 
-  response <- httr::GET(url)
+  response <- httr::GET(url, httr::timeout(60))
   httr::stop_for_status(response, task = "download the dispatch_price input")
 
   rows <- jsonlite::fromJSON(

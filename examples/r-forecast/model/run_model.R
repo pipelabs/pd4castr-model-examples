@@ -9,8 +9,9 @@ HORIZON <- 48
 # Prices repeat daily (48 half-hours) and weekly (336 half-hours).
 SEASONAL_PERIODS <- c(48, 336)
 
-# STL needs at least two full weekly cycles of observed prices.
-MIN_OBSERVED <- 2 * 336
+# STL drops the weekly period from a series shorter than 2 weeks plus one
+# half-hour, so the model needs 3 weeks of observed prices.
+MIN_OBSERVED <- 3 * 336
 
 # Each region's prices are clipped to its own 1st and 99th percentiles before
 # fitting, so a few extreme intervals don't dominate the fit.
