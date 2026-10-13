@@ -11,7 +11,9 @@ from layout import (
 def get_region(workbook) -> str:
     value = workbook[INPUTS_SHEET][REGION_CELL].value
     if not isinstance(value, str) or not value.strip():
-        raise ValueError("Inputs!B2 must hold a region ID such as NSW1")
+        raise ValueError(
+            f"{INPUTS_SHEET}!{REGION_CELL} must hold a region ID such as NSW1"
+        )
     return value.strip()
 
 

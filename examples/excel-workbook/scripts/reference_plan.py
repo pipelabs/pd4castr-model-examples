@@ -20,7 +20,7 @@ DEFAULT_PARAMETERS = {
 }
 
 
-def build_percentile(values, fraction):
+def build_percentile(values, fraction) -> float:
     """PERCENTILE.INC interpolation, as Excel and LibreOffice compute it."""
     s = sorted(values)
     k = fraction * (len(s) - 1)
@@ -31,7 +31,7 @@ def build_percentile(values, fraction):
     return s[f] + d * (s[f + 1] - s[f])
 
 
-def build_reference_plan(price_rows, parameters=DEFAULT_PARAMETERS):
+def build_reference_plan(price_rows, parameters=DEFAULT_PARAMETERS) -> list[dict]:
     region = parameters["region"]
     power = parameters["power_mw"]
     cap = parameters["capacity_mwh"]
