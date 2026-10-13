@@ -9,6 +9,7 @@ PRICE_TABLE_CAPACITY = 200
 PRICE_TABLE_DATETIME_COLUMN = 1  # A
 PRICE_TABLE_PRICE_COLUMN = 2  # B
 OUTPUTS_FIRST_ROW = 2
+OUTPUT_FIRST_COLUMN = 1  # A
 # Columns A..F of the Outputs sheet, in order.
 OUTPUT_COLUMNS = (
     "forecast_datetime",
