@@ -1,0 +1,8 @@
+{
+  "name": "sql-baseline",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@pd4castr/cli": "^5.1.2"
+  }
+}

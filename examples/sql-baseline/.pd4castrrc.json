@@ -1,0 +1,73 @@
+{
+  "name": "SQL Baseline",
+  "summary": "Seasonal-naive NEM price baseline: each half-hour repeats the dispatch price from one week earlier.",
+  "forecastVariable": "price",
+  "timeHorizon": "day_ahead",
+  "displayTimezone": "Australia/Brisbane",
+  "metadata": {
+    "author": "Your Company Name",
+    "version": "1.0.0"
+  },
+  "runMode": "AUTOMATIC",
+  "outputFileFormat": "json",
+  "inputs": [
+    {
+      "key": "dispatch_price",
+      "fetcher": {
+        "type": "AEMO_MMS",
+        "checkInterval": 300,
+        "config": {
+          "checkQuery": "queries/data-fetchers/dispatch_price_check.sql",
+          "fetchQuery": "queries/data-fetchers/dispatch_price_fetch.sql"
+        }
+      },
+      "trigger": "WAIT_FOR_LATEST_FILE",
+      "uploadFileFormat": "json",
+      "targetFileFormat": "json"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "NSW1",
+      "key": "nsw1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#84EDDC"
+    },
+    {
+      "name": "QLD1",
+      "key": "qld1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#FD4E4E"
+    },
+    {
+      "name": "SA1",
+      "key": "sa1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#FED600"
+    },
+    {
+      "name": "TAS1",
+      "key": "tas1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#40A967"
+    },
+    {
+      "name": "VIC1",
+      "key": "vic1",
+      "type": "float",
+      "seriesKey": true,
+      "colour": "#1965C6"
+    }
+  ],
+  "// WARNING: DO NOT MODIFY THESE SYSTEM MANAGED VALUES": "",
+  "$$id": null,
+  "$$modelGroupID": null,
+  "$$configVersion": 8,
+  "$$revision": null,
+  "$$dockerImage": null,
+  "$schema": "https://raw.githubusercontent.com/pipelabs/pd4castr-model-examples/main/schemas/v1/model-config.json"
+}
