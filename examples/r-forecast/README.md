@@ -29,9 +29,6 @@ weeks of prices and projects it 48 half-hours ahead.
 
 ## How a run works
 
-This section follows one model run, from the input pd4castr fetches to the
-forecast the model uploads.
-
 pd4castr builds the input with the two queries in `queries/data-fetchers/`,
 which `.pd4castrrc.json` lists under the input's `fetcher`. Every 5 minutes,
 pd4castr runs `dispatch_price_check.sql`, which returns the latest `HH:00` or
@@ -112,9 +109,10 @@ peaks at about 172 MiB.
 Two common methods for prices with daily and weekly patterns don't fit in those
 limits:
 
-- TBATS (`forecast::tbats`) used more than 512 MB, and the container was killed.
-- `forecast::auto.arima` with Fourier terms for both patterns ran for more than
-  10 minutes, longer than the 600 s a run is allowed.
+- TBATS (`forecast::tbats`) needs more than 512 MB on 8 weeks of prices, so the
+  platform kills the container.
+- `forecast::auto.arima` with Fourier terms for both patterns runs for more than
+  10 minutes at 0.25 vCPU, past the 600 s limit.
 
 ## Editing the model
 
@@ -192,4 +190,4 @@ The `Dockerfile` starts from `debian:12.15-slim` and installs R and the
 prebuilt. The build takes about 1 minute and compiles nothing. Debian 12 ships R
 4.2.2 and `forecast` 8.20. The `Dockerfile` then deletes documentation,
 translations, and each R package's help and tests. The image is 227 MB, or 103
-MB compressed. For comparison, the `rocker/r-ver` image is 398 MB compressed.
+MB compressed. The `rocker/r-ver` base image is 398 MB compressed.
