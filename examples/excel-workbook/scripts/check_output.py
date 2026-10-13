@@ -58,7 +58,6 @@ def check_output(price_rows, output_rows) -> list[str]:
             value = actual.get(key)
             if isinstance(value, bool) or not isinstance(value, (int, float)):
                 mismatches.append(f"row {index}: {key} is {value!r}, expected a number")
-            # Within tolerance rather than equal: idle rows can be -0.0 versus 0.
             elif abs(value - expected[key]) > TOLERANCE:
                 mismatches.append(
                     f"row {index}: {key} is {value}, expected {expected[key]}"

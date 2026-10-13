@@ -1,9 +1,7 @@
 """Pure-Python reference for the battery plan the workbook calculates.
 
-check_output.py compares model output against this. build_workbook.py reads
-DEFAULT_PARAMETERS for the sample workbook's inputs, so editing a workbook
-parameter means editing DEFAULT_PARAMETERS here too and re-running
-build_workbook.py.
+DEFAULT_PARAMETERS mirrors the sample workbook's Inputs sheet: change both
+together and rebuild the workbook.
 """
 
 import math
@@ -45,8 +43,8 @@ def build_reference_plan(price_rows, parameters=DEFAULT_PARAMETERS) -> list[dict
     charge_thr = build_percentile(prices, parameters["charge_percentile"])
     discharge_thr = build_percentile(prices, parameters["discharge_percentile"])
 
-    # Same operations in the same order as the Calc sheet formulas, so float
-    # results agree to well within the checker's tolerance.
+    # Same operations in the same order as the Calc sheet formulas, so the
+    # floats agree with the workbook's.
     soc = parameters["start_soc_mwh"]
     cumulative = 0.0
     plan = []
