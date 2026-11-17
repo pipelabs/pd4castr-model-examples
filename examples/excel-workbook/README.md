@@ -136,8 +136,8 @@ accepts a PUT.
 ## Using your own workbook
 
 `model/layout.py` holds every sheet name and cell address the model uses. To run
-your own workbook, edit `model/layout.py` to match it, then update the outputs
-in `.pd4castrrc.json`:
+your own workbook, edit `model/layout.py` to match it, then update the output
+columns in `.pd4castrrc.json`:
 
 1. Save your workbook as `.xlsx` in `model/`.
 2. Set `WORKBOOK_FILE` in `model/layout.py` to the workbook's file name.
@@ -163,10 +163,10 @@ in `.pd4castrrc.json`:
 10. List a key for each output sheet column in `OUTPUT_COLUMNS`, in sheet order.
     Keep `forecast_datetime` as the first key, since pd4castr reads each row's
     time from it.
-11. Make the `outputs` list in `.pd4castrrc.json` hold one entry for each key in
-    `OUTPUT_COLUMNS` after `forecast_datetime`, with the same `key`, and remove
-    the sample entries your sheet doesn't produce. pd4castr rejects an output
-    row that lacks a key the `outputs` list declares.
+11. Make the `columns` list under `outputs.forecast` in `.pd4castrrc.json` hold
+    one entry for each key in `OUTPUT_COLUMNS` after `forecast_datetime`, with
+    the same `key`, and remove the sample entries your sheet doesn't produce.
+    pd4castr rejects an output row that lacks a key the `columns` list declares.
 12. Run `yarn pd4castr test`.
 
 The model stops with an error in these cases, among others:
