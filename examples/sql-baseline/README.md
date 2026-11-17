@@ -46,7 +46,7 @@ interval and region. `SETTLEMENTDATE` is the time the interval ends, in NEM time
 {
   "SETTLEMENTDATE": "2026-10-13T17:00:00.000+10:00",
   "REGIONID": "NSW1",
-  "RRP": "84.12000"
+  "RRP": 84.12
 }
 ```
 
