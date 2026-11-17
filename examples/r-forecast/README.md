@@ -43,11 +43,11 @@ minutes.
 
 `dispatch_price_fetch.sql` returns the average dispatch price of each half-hour
 in the last 8 weeks, one row per half-hour and region. `SETTLEMENTDATE` is the
-time the half-hour ends:
+time the half-hour ends, in NEM time (UTC+10 all year):
 
 ```json
 {
-  "SETTLEMENTDATE": "2026-10-13T07:00:00.000Z",
+  "SETTLEMENTDATE": "2026-10-13T17:00:00.000+10:00",
   "REGIONID": "NSW1",
   "RRP": 84.12
 }
