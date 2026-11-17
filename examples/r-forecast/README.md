@@ -78,13 +78,13 @@ one region:
 }
 ```
 
-Each column matches the `key` of an entry in the `outputs` list of
-`.pd4castrrc.json`. An entry's `seriesKey` sets whether the forecast chart in
-the pd4castr app draws the column as a line. The entries for the point forecast
-columns, such as `nsw1`, set `"seriesKey": true`, so the chart draws a line for
-each region. The entries for the bound columns set `"seriesKey": false`.
-pd4castr stores the bound columns with the run even though the chart leaves them
-out.
+Each column matches the `key` of an entry in the `columns` list under
+`outputs.forecast` in `.pd4castrrc.json`. An entry's `seriesKey` sets whether
+the forecast chart in the pd4castr app draws the column as a line. The entries
+for the point forecast columns, such as `nsw1`, set `"seriesKey": true`, so the
+chart draws a line for each region. The entries for the bound columns set
+`"seriesKey": false`. pd4castr stores the bound columns with the run even though
+the chart leaves them out.
 
 ## The forecasting method
 
@@ -144,9 +144,9 @@ weekly pattern, so `run_model.R` needs at least 3 weeks for each region.
 `MIN_OBSERVED` holds that minimum, in half-hours. Keep the fetch window at 3
 weeks or more.
 
-pd4castr fails any run whose forecast is missing a column that the `outputs`
-list in `.pd4castrrc.json` holds. When you add or remove a column in
-`run_model.R`, add or remove its entry in `outputs`.
+pd4castr fails any run whose forecast is missing a column that the `columns`
+list under `outputs.forecast` in `.pd4castrrc.json` holds. When you add or
+remove a column in `run_model.R`, add or remove its entry in `columns`.
 
 To use another R package, add its Debian package name to the `apt-get install`
 line in the `Dockerfile`. The image runs Debian 12 ("bookworm"), which ships
