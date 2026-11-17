@@ -59,5 +59,8 @@ COPY (
         AND p.settlementdate
         <= latest.settlementdate - getvariable('lag') + INTERVAL 1 DAY
     GROUP BY p.settlementdate
+    -- pd4castr fails a run whose output has a null price, so a half-hour is
+    -- left out unless all 5 regions have one.
+    HAVING count(DISTINCT p.region) FILTER (WHERE p.price IS NOT NULL) = 5
     ORDER BY p.settlementdate
 ) TO 'output.json' (FORMAT JSON, ARRAY true);
