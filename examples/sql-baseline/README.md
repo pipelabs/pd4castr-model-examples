@@ -77,10 +77,10 @@ column per region. The row for 17:30 NEM time is:
 }
 ```
 
-Each region column matches an output `key` in `.pd4castrrc.json`. When the input
-has no price for a region at a half-hour, that region's value in the forecast
-row is `null`, and when it has no price for any region, the forecast skips that
-half-hour.
+Each region column matches an output `key` in `.pd4castrrc.json`. pd4castr fails
+a run whose output holds a `null` price, so the forecast skips a half-hour when
+the input has no price for one or more of the 5 regions at the time one week
+earlier.
 
 ## Editing the model
 
@@ -97,7 +97,8 @@ SET VARIABLE lag = INTERVAL 1 DAY;
 ```
 
 The input covers 7 days, so a lag longer than 7 days needs a wider window in
-`dispatch_price_fetch.sql`.
+`dispatch_price_fetch.sql`. With a lag shorter than 1 day, the forecast covers
+only as many half-hours as the lag is long.
 
 To forecast each half-hour's average price, replace the `half_hourly_price`
 query with one that averages the 6 intervals ending at `HH:05` to `HH:30`, or at
